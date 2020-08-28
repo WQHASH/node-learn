@@ -8,7 +8,7 @@ import service from './request';
  */
 export function getInfo(options) {
     return service({
-        url: "/api/getInfo",
+        url: "/api/setInfo/getInfo",
         method: 'get',
         params: options,
     });
@@ -24,11 +24,20 @@ export function postList(options) {
 };
 
 
-export function addInfo(options){
+export function addInfo(options) {
     return service({
-        url: '/api/addInfo',
+        url: '/api/setInfo/addInfo',
         method: 'post',
         data: options
     });
 };
+
+export function editInfo(options) {
+    return service({
+        url: '/api/setInfo/editInfo',
+        method: 'post',
+        data: options
+    });
+}
+
 

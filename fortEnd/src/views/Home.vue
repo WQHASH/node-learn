@@ -2,12 +2,12 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-08-28 16:43:30
+ * @LastEditTime: 2020-08-28 18:12:21
 -->
 <template>
 <div class="home">
     <el-row>
-        <el-button type="primary" @click="addInfo">新增</el-button>
+        <el-button type="primary" @click="addInfoMethod">新增</el-button>
     </el-row>
 
     <template>
@@ -18,7 +18,7 @@
 
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button @click="editInfo(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button @click="editInfo(scope)" type="text" size="small">编辑</el-button>
                     <el-button @click="delInfo(scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
@@ -47,7 +47,9 @@
 
 <script>
 import {
-    getInfo
+    getInfo,
+    addInfo,
+    editInfo
 } from "@/api/index.js";
 
 export default {
@@ -61,6 +63,7 @@ export default {
             isShow: false,
             // 弹框信息字段
             titleInfo: '新增',
+            titleTytpe: 'add',
             form: {
                 name: "",
                 address: "",
@@ -88,11 +91,13 @@ export default {
          * @param {type} 
          * @return {type} 
          */
-        addInfo() {
+        addInfoMethod() {
             this.titleInfo = '新增信息';
+            this.titleTytpe = 'add';
             this.form = {
                 name: "",
                 address: "",
+                id: this.tableData.length - 1,
             };
             this.isShow = true;
         },
@@ -102,15 +107,16 @@ export default {
          * @param {type} 
          * @return {type} 
          */
-        editInfo(row) {
-            console.log(row)
+        editInfo(scope) {
+            console.log(scope)
             this.titleInfo = '编辑信息';
+            this.titleTytpe = 'edit';
             this.isShow = true;
             this.form = {
-                name: row.name,
-                address: row.address,
+                name: scope.row.name,
+                address: scope.row.address,
+                id: scope.row.$index,
             };
-            
 
         },
 
@@ -122,12 +128,42 @@ export default {
         submitInfo() {
             this.isShow = false;
             let result = {};
-            result['sname'] = this.form.name;
+            result['name'] = this.form.name;
             result['address'] = this.form.address;
             result['date'] = +new Date();
-            console.log(result, "result");
-            
+             result['id'] =  this.form.id;
 
+            // 发送请求
+            this.submitInfoPublic(result);
+
+        },
+
+        /**
+         * @description: 提交信息后发送请求
+         * @param {type} 
+         * @return {type} 
+         */
+        submitInfoPublic(result) {
+            console.log(result, "result");
+
+            switch (this.titleTytpe) {
+                case 'add':
+                    addInfo(result).then((data) => {
+                        console.log(data)
+                    }).catch((err) => {
+                        console.log("增加信息失败!");
+                    });
+                    break;
+                case 'edit':
+                    editInfo(result).then((data) => {
+                        console.log(data)
+                    }).catch((err) => {
+                        console.log("编辑信息失败!");
+                    });
+                    break;
+                default:
+                    break;
+            }
         },
 
         /**
