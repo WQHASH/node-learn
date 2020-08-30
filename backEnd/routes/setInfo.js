@@ -2,10 +2,12 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-08-28 18:11:07
+ * @LastEditTime: 2020-08-30 16:24:19
  */
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
 
 let tableData = [{
     date: "2016-05-02",
@@ -31,19 +33,28 @@ let tableData = [{
 
 
 router.get('/getInfo', (req, res, next) => {
+    console.log(path.resolve(), "resolve");
+    fs.readFile(path.resolve('./db.json'), (err, data) => {
+        if (err) {
+            // res.status(500).send('Server bad...')
+            res.statusCode = 500;
+            res.send('Server bad..w.');
+        };
+        data = JSON.parse(data.toString());
+        let result = {
+            code: 200,
+            message: "ok",
+            tableData: data,
+        };
+        res.json(result);
+    });
 
-    let result = {
-        code: 200,
-        message: "ok",
-        tableData
-    };
-
-    res.json(result);
 });
 
 
 router.post('/editInfo', (req, res, next) => {
     let reqBody = req.body;
+
     console.log(reqBody, "tableData");
     let result = {
         code: 200,
@@ -56,7 +67,7 @@ router.post('/editInfo', (req, res, next) => {
 
 router.post('/addInfo', (req, res, next) => {
     let reqBody = req.body;
-    console.log(reqBody, "tableData");
+  
     tableData.push(reqBody);
     let result = {
         code: 200,

@@ -13,15 +13,29 @@ var setInfoRouter = require('./routes/setInfo');
 
 var app = express();
 
+// jade
 // view engine setup
+// 设置模板的文件路径入口, views 可以修改成其他模板文件夹
 app.set('views', path.join(__dirname, 'views'));
+// 设置模板文件的后缀类型
 app.set('view engine', 'jade');
+
+// pug
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
+
+// art-template
+// art模板比较特殊，他能设置成为html来使用
+// app.engine('html', require('express-art-template'));
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'html');
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 //解决跨域
@@ -39,6 +53,9 @@ app.all("*", function (req, res, next) {
 
 });
 
+// app.get('/wq', (req, res, next)=>{
+//   res.render('404', { title: 'Hey', message: 'Hello there!' })
+// });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -59,7 +76,6 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');
