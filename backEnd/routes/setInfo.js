@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-08-30 16:24:19
+ * @LastEditTime: 2020-09-01 23:57:29
  */
 const express = require('express');
 const router = express.Router();
@@ -49,6 +49,11 @@ router.get('/getInfo', (req, res, next) => {
         res.json(result);
     });
 
+});
+
+router.get('/wqTest', (req, res)=>{
+    let str = `<h3>我是谁，我在哪里</h3>`;
+    res.send(str);
 });
 
 
