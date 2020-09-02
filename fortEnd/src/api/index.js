@@ -1,3 +1,9 @@
+/*
+ * @Description: 
+ * @Author: wangqi
+ * @Date: 2020-08-28 10:46:20
+ * @LastEditTime: 2020-09-02 17:08:54
+ */
 
 import service from './request';
 
@@ -8,7 +14,7 @@ import service from './request';
  */
 export function getInfo(options) {
     return service({
-        url: "/api/setInfo/getInfo",
+        url: "/api/getInfo",
         method: 'get',
         params: options,
     });
@@ -26,7 +32,7 @@ export function postList(options) {
 
 export function addInfo(options) {
     return service({
-        url: '/api/setInfo/addInfo',
+        url: '/api/addInfo',
         method: 'post',
         data: options
     });
@@ -34,7 +40,7 @@ export function addInfo(options) {
 
 export function editInfo(options) {
     return service({
-        url: '/api/setInfo/editInfo',
+        url: '/api/editInfo',
         method: 'post',
         data: options
     });

@@ -1,15 +1,15 @@
+/*
+ * @Description: 
+ * @Author: wangqi
+ * @Date: 2020-08-28 10:03:55
+ * @LastEditTime: 2020-09-02 16:57:26
+ */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var postListRouter = require('./routes/postList');
-var setInfoRouter = require('./routes/setInfo');
-
+var router = require('./routes/index');
 
 var app = express();
 
@@ -53,22 +53,12 @@ app.all("*", function (req, res, next) {
 
 });
 
-// app.get('/wq', (req, res, next)=>{
-//   res.render('404', { title: 'Hey', message: 'Hello there!' })
-// });
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-app.use('/postList', postListRouter);
-// app.use('/setInfo', setInfoRouter);
-app.use(setInfoRouter);
+app.use(router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 
 // console.log(process.env.NODE_ENV, "env");
 
