@@ -2,12 +2,14 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-02 18:17:54
+ * @LastEditTime: 2020-09-03 15:37:41
  */
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+// 处理文件提交
+const formidable = require('formidable');
 
 router.get('/getInfo', (req, res, next) => {
     console.log(path.resolve(), "resolve");
@@ -28,46 +30,58 @@ router.get('/getInfo', (req, res, next) => {
 
 });
 
-router.get('/wqTest', (req, res) => {
-    let str = `<h3>我是谁，我在哪里</h3>`;
-    res.send(str);
-});
-
-
 router.post('/editInfo', (req, res, next) => {
-    let reqBody = req.body;
+    // let str = '';
+    // req.on('data', (chunk) => {
+    //     str += chunk;
+    // });
+    // req.on('end', () => {
+    //     console.log(str, "str");
+    //     res.end('ok');
+    // });
+    let obj = {};
+    let form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files)=>{
+        console.log(fields);
+        console.log(files)
+        res.send('ok')
+    });
+    res.send('ok');
+    
+    // let reqBody = req.body;
 
-    console.log(reqBody, "tableData");
-    fs.readFile(path.resolve('./db.json', (err, data) => {
-        if (err) {
-            res.statusCode = 500;
-            res.send('Server bad..w.');
-        }
+    // console.log(reqBody, "tableData");
+    // fs.readFile(path.resolve('./db.json'), (err, data) => {
+    //     if (err) {
+    //         res.statusCode = 500;
+    //         res.send('Server bad..w.');
+    //     }
 
-        let fileData = JSON.parse(data.JSON.toString());
-        // 编辑数据库中数据
-        fileData[reqBody['id']] = reqBody;
-        
-        // 发送给前台
-        let result = {
-            code: 200,
-            message: "增加信息成功",
-        };
-        res.json();
-    }));
+    //     let fileData = JSON.parse(data.toString());
+    //     // 编辑数据库中数据
+    //     fileData[reqBody['id']] = reqBody;
 
-    let result = {
-        code: 200,
-        message: "编辑信息成功"
-    };
-    res.json(result);
+    //     fs.writeFile(path.resolve('./db.json'), JSON.stringify(fileData), (err) => {
+    //         if (err) { throw err }
+    //         console.log("编辑文件成功");
+
+    //         // 发送给前台
+    //         let result = {
+    //             code: 200,
+    //             message: "编辑文件成功",
+    //             data: fileData,
+    //         };
+    //         res.json(result);
+    //     });
+
+    // });
 
 });
 
 
 router.post('/addInfo', (req, res, next) => {
     let reqBody = req.body;
-    fs.readFile(path.resolve('./db.json'), (err, data) => {
+    fs.readFile(path.resolve('./db.json'), (err) => {
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');

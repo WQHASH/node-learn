@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-06-02 13:17:26
- * @LastEditTime: 2020-08-28 11:22:32
+ * @LastEditTime: 2020-09-03 15:38:29
  */
 import axios from 'axios';
 // import store from '@/store';
@@ -23,7 +23,8 @@ const service = axios.create({
     // json: application/json;charset=utf-8
     // file: multipart/form-data
     headers: {
-        'Content-type': 'application/json;charset=utf-8',
+        // 'Content-type': 'application/json;charset=utf-8',
+        'Content-type': 'multipart/form-data',
     },
     withCredentials: true,
 })
