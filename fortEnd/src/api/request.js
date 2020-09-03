@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-06-02 13:17:26
- * @LastEditTime: 2020-09-03 15:38:29
+ * @LastEditTime: 2020-09-04 00:20:38
  */
 import axios from 'axios';
 // import store from '@/store';
@@ -14,7 +14,7 @@ import { Loading, Notification } from 'element-ui';
 // 创建axios实例
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
-    timeout: 15000,
+    // timeout: 15000,
     // 请求头处理，设置传给后台的参数格式
     // form: application/x-www-form-urlencoded;charset=utf-8    
     //          1. 配合qs使用
@@ -23,8 +23,8 @@ const service = axios.create({
     // json: application/json;charset=utf-8
     // file: multipart/form-data
     headers: {
-        // 'Content-type': 'application/json;charset=utf-8',
-        'Content-type': 'multipart/form-data',
+        'Content-type': 'application/json;charset=utf-8',
+        // 'Content-type': 'multipart/form-data',
     },
     withCredentials: true,
 })

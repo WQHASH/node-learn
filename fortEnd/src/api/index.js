@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:46:20
- * @LastEditTime: 2020-09-02 17:08:54
+ * @LastEditTime: 2020-09-03 23:51:57
  */
 
 import service from './request';
@@ -41,6 +41,14 @@ export function addInfo(options) {
 export function editInfo(options) {
     return service({
         url: '/api/editInfo',
+        method: 'post',
+        data: options
+    });
+}
+
+export function delInfo(options) {
+    return service({
+        url: '/api/delInfo',
         method: 'post',
         data: options
     });
