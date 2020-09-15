@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-04 00:13:20
+ * @LastEditTime: 2020-09-15 17:51:13
  */
 const express = require('express');
 const router = express.Router();
@@ -136,7 +136,63 @@ router.post('/delInfo', (req, res, next) => {
 
 });
 
+router.post('/uploadImage',  async ctx => {
+    const form = new formidable.IncomingForm()
+    // 设置存储文件的目录
+    const imgPath = path.join(__dirname, '/img')
+    // 如果目录不存在则创建
+    if (!fs.existsSync(imgPath)) fs.mkdirSync(imgPath)
+    form.uploadDir = imgPath
+    // 上传文件大小限制
+    form.maxFieldsSize = 20 * 1024 * 1024
 
+    let result = await new Promise(r => {
+        form.parse(ctx, function (err, fields, files) {
+            if (err) {
+                r({ err })
+            } else {
+                // 手动给文件加后缀, formidable默认保存的文件是无后缀的
+                let newPath = files.res.path + '_' + files.res.name
+                fs.renameSync(files.res.path, newPath)
+                r({ path: newPath })
+            }
+        })
+    })
+    const basename = '/' + path.basename(result.path)
+    if (result.err) ctx.throw(400, '异常错误')
+    else ctx.body = `<p>url: ${basename}</p><img src=${basename} style="max-width: 100%;">`
+
+})
+
+// router.post('/uploadImage', async (req, res, next) => {
+//     let obj = {};
+//     let form = new formidable.IncomingForm();
+//     form.encoding = 'utf-8';
+//     form.parse(req, (err, fields, files) => {
+//         console.log(files,"files")
+//         fs.readFile(files.res.path, (err, data)=>{
+//             if(err){
+//                 res.statusCode = 500;
+//                 res.send('Server bad..w.');
+//             };
+//             // data.toString
+//         });
+//         // ================
+//         var filename = files.res.name
+//         var nameArray = filename.split('.');
+//         var type = nameArray[nameArray.length - 1];
+//         var name = '';
+//         for (var i = 0; i < nameArray.length - 1; i++) {
+//             name = name + nameArray[i];
+//         }
+//         var date = new Date();
+//         var time = '_' + date.getFullYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes();
+//         var avatarName = name + time + '.' + type;
+//         var newPath = form.uploadDir + "/" + avatarName;
+//         fs.renameSync(files.res.path, newPath);  //重命名
+//         res.send({data:"/upload/"+avatarName})
+//     });
+// });
 
 module.exports = router;
 
