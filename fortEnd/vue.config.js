@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-05-29 17:29:56
- * @LastEditTime: 2020-08-28 11:23:15
+ * @LastEditTime: 2020-09-16 14:57:29
  */
 
 const path = require('path')
@@ -35,7 +35,7 @@ module.exports = {
         proxy: {
             //配置跨域
             '/api': {
-                target: 'http://192.168.4.55:3000/', //"http://192.168.4.152:8181/",
+                target: 'http://192.168.4.65:3000/', //"http://192.168.4.152:8181/",
                 // ws:true,
                 changeOrigin: process.env.NODE_ENV === 'development',
                 pathRewrite: {

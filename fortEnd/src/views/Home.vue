@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-09-15 15:13:55
+ * @LastEditTime: 2020-09-16 16:26:14
 -->
 <template>
 <div class="home">
@@ -10,7 +10,7 @@
         <el-button type="primary" @click="addInfoMethod">新增</el-button>
         <el-button type="primary"> <input @change="uploadFile($event)" type="file"></el-button>
     </el-row>
-    <div class="img-preview"> <img :src=valueUrl  v-if="valueUrl"></div>
+    <div class="img-preview"> <img :src=valueUrl v-if="valueUrl"></div>
     <template>
         <el-table :data="tableData" style="width: 100%">
             <el-table-column prop="date" label="日期" width="180"></el-table-column>
@@ -49,7 +49,7 @@ import {
     addInfo,
     editInfo,
     delInfo,
-    uploadImage
+    uploadImage,
 } from "@/api/index.js";
 
 export default {
@@ -69,7 +69,7 @@ export default {
                 address: "",
             },
             formLabelWidth: "120px",
-            valueUrl:"",
+            valueUrl: "",
         };
     },
 
@@ -78,7 +78,7 @@ export default {
         getInfo()
             .then((data) => {
                 if (data["code"] == 200) {
-                    this.tableData = data.tableData;
+                    this.tableData = data.data;
                 }
             })
             .catch((err) => {
@@ -111,7 +111,7 @@ export default {
                 const formData = new FormData(); // 创建一个formdata对象
                 formData.append("res", el.target.files[0]);
                 formData.append("uid", uid);
-                console.log(formData,"formData");
+                console.log(formData, "formData");
                 uploadImage(formData).then((res) => {
                     // 发送请求，保存图片
                     if (res.status === 0) {
@@ -131,14 +131,14 @@ export default {
         addInfoMethod() {
             this.titleInfo = "新增信息";
             this.titleTytpe = "add";
-            let id = this.tableData[this.tableData.length - 1] ?
-                this.tableData[this.tableData.length - 1]["id"] + 1 :
-                1;
+            // let id = this.tableData[this.tableData.length - 1] ?
+            //     this.tableData[this.tableData.length - 1]["id"] + 1 :
+            //     1;
 
             this.form = {
                 name: "",
                 address: "",
-                id,
+                // id,
             };
             this.isShow = true;
         },
@@ -171,7 +171,6 @@ export default {
             result["name"] = this.form.name;
             result["address"] = this.form.address;
             result["date"] = +new Date();
-            result["id"] = this.form.id;
 
             // 发送请求
             this.submitInfoPublic(result);
@@ -184,7 +183,6 @@ export default {
          */
         submitInfoPublic(result) {
             console.log(result, "result");
-
             switch (this.titleTytpe) {
                 case "add":
                     addInfo(result)
@@ -196,6 +194,7 @@ export default {
                         });
                     break;
                 case "edit":
+                    result["id"] = this.form.id;
                     editInfo(result)
                         .then((data) => {
                             console.log(data);
@@ -237,7 +236,8 @@ export default {
     h3 {
         font-size: 28px;
     }
-    .img-preview{
+
+    .img-preview {
         width: 400px;
         height: 300px;
         border: 1px dotted red;
