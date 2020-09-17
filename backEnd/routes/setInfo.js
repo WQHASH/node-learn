@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-16 18:16:43
+ * @LastEditTime: 2020-09-17 11:51:51
  */
 const express = require('express');
 const router = express.Router();
@@ -108,27 +108,47 @@ router.post('/uploadImage', async (req, res, next) => {
     if (!fs.existsSync(imgPath)) fs.mkdirSync(imgPath)
     form.uploadDir = imgPath
     // 上传文件大小限制
-    form.maxFieldsSize = 20 * 1024 * 1024
+    form.maxFieldsSize = 20 * 1024 * 1024;
 
-    let result = await new Promise(resolve => {
+    let uploadFilePath = await new Promise(resolve => {
         form.parse(req, function (err, fields, files) {
             if (err) {
-                resolve({ err })
+                resolve({ err });
             } else {
                 // 手动给文件加后缀, formidable默认保存的文件是无后缀的
-                let newPath = files.res.path + '_' + files.res.name
-                fs.renameSync(files.res.path, newPath)
-                resolve({ path: newPath })
+                let newPath = files.res.path + '_' + files.res.name;
+                fs.renameSync(files.res.path, newPath);
+                resolve({ path: newPath });
             }
         })
-    })
-    // const basename = path.join(`/public/images/`, `${path.basename(result.path)}`);
-    const basename = path.resolve(`./public/images/upload`, `${path.basename(result.path)}`);
-    // if (result.err) req.throw(400, '异常错误');
-    // else req.body = `<p>url: ${basename}</p><img src=${basename} style="max-width: 100%;">`
-    // public/images/1.png
+    });
+ 
+    // const basename = path.resolve(`./public/images/upload`, `${path.basename(result.path)}`);
+    const basename = path.join(`/public/images/upload`, `${path.basename(uploadFilePath.path)}`);
     console.log(basename,"basename");
-    res.sendFile(basename);
+    let result = {
+        code: 200,
+        message: "ok",
+        data: {
+            url: basename,
+        },
+    };
+    res.json(result);
+});
+
+
+router.get('/getImage', (req, res, next) => {
+    const basename = path.resolve(`./public/images/upload`);
+    console.log(basename,"basename");
+    let result = {
+        code: 200,
+        message: "ok",
+        data: {
+            imgs: 'xx',
+        },
+    };
+    res.json(result);
+
 });
 
 module.exports = router;

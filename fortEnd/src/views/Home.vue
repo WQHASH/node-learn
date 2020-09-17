@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-09-16 16:26:14
+ * @LastEditTime: 2020-09-17 11:42:34
 -->
 <template>
 <div class="home">
@@ -50,6 +50,7 @@ import {
     editInfo,
     delInfo,
     uploadImage,
+    getImage,
 } from "@/api/index.js";
 
 export default {
@@ -84,6 +85,12 @@ export default {
             .catch((err) => {
                 console.log("请求失败~");
             });
+
+        // 获取图片信息
+        getImage().then((data) => {
+            console.log(data, "getImage");
+        }).catch(() => {});
+
     },
     methods: {
         /**
@@ -115,7 +122,7 @@ export default {
                 uploadImage(formData).then((res) => {
                     // 发送请求，保存图片
                     if (res.status === 0) {
-                        this.valueUrl = res.data;
+                        // this.valueUrl = res.data;
                     } else {
                         console.log(res);
                     }

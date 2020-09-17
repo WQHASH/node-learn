@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:46:20
- * @LastEditTime: 2020-09-15 15:22:40
+ * @LastEditTime: 2020-09-17 11:38:06
  */
 
 import service from './request';
@@ -30,6 +30,14 @@ export function uploadImage(options){
         },
         data: options,
         
+    });
+};
+
+export function getImage(){
+    return service({
+        url: "/api/getImage",
+        method: 'get',
+        // data: options,
     });
 };
 
