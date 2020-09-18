@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-09-15 21:51:43
- * @LastEditTime: 2020-09-16 16:59:35
+ * @LastEditTime: 2020-09-18 17:43:39
  */
 const fs = require('fs');
 const path = require('path');
@@ -90,4 +90,26 @@ exports.updateById = function (obj, callBack) {
 
     });
 
+};
+
+// 获取文件
+exports.getImages = function (currentDirPath, callback) {
+    let imgs = [];
+    fs.readdir(currentDirPath, function (err, files) {
+        if (err) {
+            throw new Error(err);
+        }
+        files.forEach(function (name) {
+            let filePath = path.join(currentDirPath, name);
+            let stat = fs.statSync(filePath);
+            if (stat.isFile()) {
+                let imgUrl = `/public/images/upload/${name}`;
+                imgs.push(imgUrl);
+            } else if (stat.isDirectory()) {
+                getImages(filePath, callback);
+            }
+        });
+        callback(imgs);
+
+    });
 };

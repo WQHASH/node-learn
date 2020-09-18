@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-09-17 11:42:34
+ * @LastEditTime: 2020-09-18 18:00:27
 -->
 <template>
 <div class="home">
@@ -89,7 +89,13 @@ export default {
         // 获取图片信息
         getImage().then((data) => {
             console.log(data, "getImage");
-        }).catch(() => {});
+            let imgs = data.data.imgs;
+            console.log(imgs[0])
+            // this.valueUrl = `http://192.168.4.65:3000${imgs[6]}`;
+            this.valueUrl = `/api${imgs[1]}`;
+        }).catch((err) => {
+            console.log('请求图片失败!');
+        });
 
     },
     methods: {

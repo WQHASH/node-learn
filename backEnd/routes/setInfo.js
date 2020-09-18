@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-17 11:51:51
+ * @LastEditTime: 2020-09-18 17:45:29
  */
 const express = require('express');
 const router = express.Router();
@@ -122,10 +122,10 @@ router.post('/uploadImage', async (req, res, next) => {
             }
         })
     });
- 
+
     // const basename = path.resolve(`./public/images/upload`, `${path.basename(result.path)}`);
     const basename = path.join(`/public/images/upload`, `${path.basename(uploadFilePath.path)}`);
-    console.log(basename,"basename");
+    console.log(basename, "basename");
     let result = {
         code: 200,
         message: "ok",
@@ -139,15 +139,22 @@ router.post('/uploadImage', async (req, res, next) => {
 
 router.get('/getImage', (req, res, next) => {
     const basename = path.resolve(`./public/images/upload`);
-    console.log(basename,"basename");
-    let result = {
-        code: 200,
-        message: "ok",
-        data: {
-            imgs: 'xx',
-        },
-    };
-    res.json(result);
+    console.log(basename, "basename");
+    let arr = [];
+    curd.getImages(basename, (imgs) => {
+        // console.log(fileName, filePath);
+        console.log(imgs,"arr");
+        let result = {
+            code: 200,
+            message: "ok",
+            data: {
+                imgs: imgs,
+            },
+        };
+        res.json(result);
+    });
+
+    
 
 });
 
