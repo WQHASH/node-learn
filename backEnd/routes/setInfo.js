@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-18 17:45:29
+ * @LastEditTime: 2020-09-21 17:54:10
  */
 const express = require('express');
 const router = express.Router();
@@ -11,16 +11,28 @@ const path = require('path');
 // 处理文件提交
 const formidable = require('formidable');
 
-const curd = require('./curd');
-const { resolve } = require('path');
+// const curd = require('./curd');
+const {users, imgUrls} = require('../mongo/config');
+
+// let imgUrl = new imgUrls({
+//     url: "/public/images/upload/aaa.png",
+// })
+// imgUrl.save((err, data) => {
+//     if (err) {
+//         console.log('保存失败');
+//     } else {
+//         console.log('保存成功');
+//         console.log(data, "data");
+//     }
+// });
 
 router.get('/getInfo', (req, res, next) => {
-    curd.find((err, data) => {
+    users.find((err, data) => {
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');
         }
-        data = JSON.parse(data.toString());
+        // data = JSON.parse(data.toString());
         let result = {
             code: 200,
             message: "ok",
@@ -33,7 +45,7 @@ router.get('/getInfo', (req, res, next) => {
 router.get('/findById', (req, res, next) => {
     let findIndex = req.query.id;
     let args = { id: findIndex };
-    curd.findById(args, (err, data) => {
+    users.findById(findIndex, (err, data) => {
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');
@@ -48,8 +60,8 @@ router.get('/findById', (req, res, next) => {
 });
 
 router.post('/editInfo', (req, res, next) => {
-    let reqBody = req.body;
-    curd.updateById(reqBody, (err) => {
+    let id = req.body.id;
+    users.findByIdAndUpdate(id, req.body, (err, data) => {
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');
@@ -66,7 +78,7 @@ router.post('/editInfo', (req, res, next) => {
 
 router.post('/addInfo', (req, res, next) => {
     let reqBody = req.body;
-    curd.save(reqBody, (err) => {
+    users.create(reqBody, (err) => {
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');
@@ -84,7 +96,7 @@ router.post('/delInfo', (req, res, next) => {
     let reqBody = req.body;
     let id = reqBody.id;
 
-    curd.deleteById(id, (err) => {
+    users.findByIdAndRemove(id, (err) => {
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');
@@ -139,11 +151,12 @@ router.post('/uploadImage', async (req, res, next) => {
 
 router.get('/getImage', (req, res, next) => {
     const basename = path.resolve(`./public/images/upload`);
-    console.log(basename, "basename");
     let arr = [];
-    curd.getImages(basename, (imgs) => {
-        // console.log(fileName, filePath);
-        console.log(imgs,"arr");
+    imgUrls.find((err, imgs) => {
+        if (err) {
+            res.statusCode = 500;
+            res.send('Server bad..w.');
+        }
         let result = {
             code: 200,
             message: "ok",
@@ -153,6 +166,18 @@ router.get('/getImage', (req, res, next) => {
         };
         res.json(result);
     });
+    
+    // curd.getImages(basename, (imgs) => {
+    //     console.log(imgs,"arr");
+    //     let result = {
+    //         code: 200,
+    //         message: "ok",
+    //         data: {
+    //             imgs: imgs,
+    //         },
+    //     };
+    //     res.json(result);
+    // });
 
     
 

@@ -2,7 +2,7 @@
  * @Description: 数据连接
  * @Author: wangqi
  * @Date: 2020-09-19 18:18:24
- * @LastEditTime: 2020-09-20 11:15:46
+ * @LastEditTime: 2020-09-21 17:44:12
  */
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/wqhash', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
@@ -17,6 +17,10 @@ const { Schema } = mongoose;
 
 // 设计数据结构
 const userSchema = new Schema({
+    date: {
+        type: Number,
+        require: true
+    },
     name: {
         type: String,
         require: true
@@ -25,7 +29,16 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
+
 });
+
+const imgUrlSchema = new Schema({
+    url: {
+        type: "String",
+        require: true
+    },
+});
+
 
 // 将结构发布为模型
 // 第一个参数为数据库名称  (现在是首字母大写单数User, 生成执行后会变成 全小写复数  users)
@@ -46,4 +59,13 @@ const userSchema = new Schema({
 //     }
 // });
 
-module.exports = mongoose.model('User', userSchema);
+// module.exports = mongoose.model('User', userSchema);
+
+module.exports = {
+    users: mongoose.model('User', userSchema),
+    imgUrls: mongoose.model('ImgUrl', imgUrlSchema)
+}
+
+
+
+

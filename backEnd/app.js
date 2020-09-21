@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-09-20 11:13:54
+ * @LastEditTime: 2020-09-21 16:20:25
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -13,15 +13,16 @@ var router = require('./routes/index');
 
 var app = express();
 
-var users = require('./mongo/config');
-var list = new users({
-  name: "小刘",
-  address: "南京"
-});
-list.save((err, data)=>{
-  if(err){ return console.log("数据库保存失败!")};
-  console.log(data, "数据库保存成功");
-});
+// var users = require('./mongo/config');
+
+// var list = new users({
+//   name: "小刘",
+//   address: "南京"
+// });
+// list.save((err, data)=>{
+//   if(err){ return console.log("数据库保存失败!")};
+//   console.log(data, "数据库保存成功");
+// });
 
 // users.find({name:'汪琪'}, (err, data)=>{
 //   if(err){ return console.log("查询失败！")};

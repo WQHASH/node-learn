@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-09-18 18:00:27
+ * @LastEditTime: 2020-09-21 17:54:39
 -->
 <template>
 <div class="home">
@@ -92,7 +92,7 @@ export default {
             let imgs = data.data.imgs;
             console.log(imgs[0])
             // this.valueUrl = `http://192.168.4.65:3000${imgs[6]}`;
-            this.valueUrl = `/api${imgs[1]}`;
+            this.valueUrl = `/api${imgs[0]['url']}`;
         }).catch((err) => {
             console.log('请求图片失败!');
         });
@@ -169,7 +169,7 @@ export default {
             this.form = {
                 name: scope.row.name,
                 address: scope.row.address,
-                id: scope.row.id,
+                id: scope.row._id,
             };
         },
 
@@ -229,7 +229,7 @@ export default {
         delInfo(scope) {
             console.log(scope, "row");
             let args = {
-                id: scope.row.id,
+                id: scope.row._id,
             };
             delInfo(args)
                 .then((data) => {
