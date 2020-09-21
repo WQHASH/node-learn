@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-09-02 16:57:26
+ * @LastEditTime: 2020-09-20 11:13:54
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -12,6 +12,24 @@ var logger = require('morgan');
 var router = require('./routes/index');
 
 var app = express();
+
+var users = require('./mongo/config');
+var list = new users({
+  name: "小刘",
+  address: "南京"
+});
+list.save((err, data)=>{
+  if(err){ return console.log("数据库保存失败!")};
+  console.log(data, "数据库保存成功");
+});
+
+// users.find({name:'汪琪'}, (err, data)=>{
+//   if(err){ return console.log("查询失败！")};
+//   console.log(data,"查询成功");
+// })
+
+
+
 
 // jade
 // view engine setup
