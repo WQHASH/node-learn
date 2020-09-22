@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-22 16:07:13
+ * @LastEditTime: 2020-09-23 00:03:13
  */
 const express = require('express');
 const router = express.Router();
@@ -129,44 +129,46 @@ router.post('/uploadImage', async (req, res, next) => {
             } else {
                 // 手动给文件加后缀, formidable默认保存的文件是无后缀的
                 let newPath = files.res.path + '_' + files.res.name;
-                console.log(newPath,"newPath")
+                console.log(newPath, "newPath")
                 // let newPath = files.res.name;
                 fs.renameSync(files.res.path, newPath);
                 resolve({ path: newPath });
             }
         })
     });
-    console.log(uploadFilePath,"uploadFilePath")
+    console.log(uploadFilePath, "uploadFilePath")
 
     // const basename = path.resolve(`./public/images/upload`, `${path.basename(result.path)}`);
-    const basename = path.join(`/public/images/upload`, `${path.basename(uploadFilePath.path)}`);
-    console.log(basename, "basename");
-    // let result = {};
-    // imgUrls.create({ url: basename }, (err, data) => {
-    //     if (err) {
-    //         console.log("图片上传失败");
-    //         result = {
-    //             code: 200,
-    //             message: "fail",
-    //             data: {
-    //                 url: [],
-    //             },
-    //         };
-    //         res.json(result);
-    //     } else {
-    //         console.log("图片上传成功");
-    //         result = {
-    //             code: 200,
-    //             message: "ok",
-    //             data: {
-    //                 url: basename,
-    //             },
-    //         };
-    //         res.json(result);
-    //     }
-    // });
+    let basename = path.join(`/public/images/upload`, `${path.basename(uploadFilePath.path)}`);
+    let newBasename = basename.split(path.sep).join('/');
+    // windows下
+    // basename.replace(/\\/g, '\/');
+    console.log(newBasename, "newBasename");
 
-
+    let result = {};
+    imgUrls.create({ url: newBasename }, (err, data) => {
+        if (err) {
+            console.log("图片上传失败");
+            result = {
+                code: 200,
+                message: "fail",
+                data: {
+                    url: [],
+                },
+            };
+            res.json(result);
+        } else {
+            console.log("图片上传成功");
+            result = {
+                code: 200,
+                message: "ok",
+                data: {
+                    url: newBasename,
+                },
+            };
+            res.json(result);
+        }
+    });
 });
 
 
