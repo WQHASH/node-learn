@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-21 17:54:10
+ * @LastEditTime: 2020-09-22 16:07:13
  */
 const express = require('express');
 const router = express.Router();
@@ -12,7 +12,7 @@ const path = require('path');
 const formidable = require('formidable');
 
 // const curd = require('./curd');
-const {users, imgUrls} = require('../mongo/config');
+const { users, imgUrls } = require('../mongo/config');
 
 // let imgUrl = new imgUrls({
 //     url: "/public/images/upload/aaa.png",
@@ -129,23 +129,44 @@ router.post('/uploadImage', async (req, res, next) => {
             } else {
                 // 手动给文件加后缀, formidable默认保存的文件是无后缀的
                 let newPath = files.res.path + '_' + files.res.name;
+                console.log(newPath,"newPath")
+                // let newPath = files.res.name;
                 fs.renameSync(files.res.path, newPath);
                 resolve({ path: newPath });
             }
         })
     });
+    console.log(uploadFilePath,"uploadFilePath")
 
     // const basename = path.resolve(`./public/images/upload`, `${path.basename(result.path)}`);
     const basename = path.join(`/public/images/upload`, `${path.basename(uploadFilePath.path)}`);
     console.log(basename, "basename");
-    let result = {
-        code: 200,
-        message: "ok",
-        data: {
-            url: basename,
-        },
-    };
-    res.json(result);
+    // let result = {};
+    // imgUrls.create({ url: basename }, (err, data) => {
+    //     if (err) {
+    //         console.log("图片上传失败");
+    //         result = {
+    //             code: 200,
+    //             message: "fail",
+    //             data: {
+    //                 url: [],
+    //             },
+    //         };
+    //         res.json(result);
+    //     } else {
+    //         console.log("图片上传成功");
+    //         result = {
+    //             code: 200,
+    //             message: "ok",
+    //             data: {
+    //                 url: basename,
+    //             },
+    //         };
+    //         res.json(result);
+    //     }
+    // });
+
+
 });
 
 
@@ -166,7 +187,7 @@ router.get('/getImage', (req, res, next) => {
         };
         res.json(result);
     });
-    
+
     // curd.getImages(basename, (imgs) => {
     //     console.log(imgs,"arr");
     //     let result = {
@@ -179,7 +200,7 @@ router.get('/getImage', (req, res, next) => {
     //     res.json(result);
     // });
 
-    
+
 
 });
 
