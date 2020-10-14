@@ -2,13 +2,14 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-09-21 16:20:25
+ * @LastEditTime: 2020-10-14 20:44:46
  */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var io = require('socket.io');
 var router = require('./routes/index');
 
 var app = express();
