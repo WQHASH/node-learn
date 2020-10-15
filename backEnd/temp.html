@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+</head>
+
+<body>
+  <button id="upload">上传</button>
+  <script>
+
+    // ================
+    // socket
+    // const socket = io("http://localhost:3000", { transports: ['websocket'] });
+    // socket.on('connect', () => {
+    //   console.log("connect连接成功");
+    // });
+
+    // socket.on('messageServer', (text) => {
+    //   console.log(text, "wqTest");
+    // });
+
+    // ================
+    // WebSocket
+    var ws = new WebSocket("ws://localhost:3000");
+    console.log(ws, "ws");
+    ws.onopen = function () {
+      // Web Socket 已连接上，使用 send() 方法发送数据
+      ws.send("发送数据");
+      console.log("数据发送中...");
+    };
+
+    ws.onmessage = function (evt) {
+      var received_msg = evt.data;
+      console.log("数据已接收...");
+    };
+
+
+    const uploadBtn = document.querySelector("#upload");
+
+    uploadBtn.addEventListener("click", () => {
+      // ================
+      // fetch
+      // fetch("http://localhost:3000/addInfo", {
+      //   method: "post",
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded'
+      //   },
+      //   body:"name=我是谁啊啊啊啊&address=我住哪里啊&date=456478915"
+      // })
+      //   .then((res) => res.json()).then((data) => {
+      //     console.log(data, "data");
+      //   });
+
+      // socket.emit('messageClient', 'messageClient');
+
+
+
+    });
+
+
+  </script>
+</body>
+
+</html>

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 17:32:43
- * @LastEditTime: 2020-09-23 00:03:13
+ * @LastEditTime: 2020-10-15 15:36:32
  */
 const express = require('express');
 const router = express.Router();
@@ -28,6 +28,7 @@ const { users, imgUrls } = require('../mongo/config');
 
 router.get('/getInfo', (req, res, next) => {
     users.find((err, data) => {
+        console.log(data,"data")
         if (err) {
             res.statusCode = 500;
             res.send('Server bad..w.');

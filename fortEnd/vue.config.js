@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-05-29 17:29:56
- * @LastEditTime: 2020-09-18 18:09:38
+ * @LastEditTime: 2020-10-15 15:48:59
  */
 
 const path = require('path')
@@ -33,9 +33,14 @@ module.exports = {
 
         // before: require('./mock/mock-server.js'),
         proxy: {
+            '/socket.io': {
+                target: 'http://127.0.0.1:3000',
+                ws: true,
+                changeOrigin: true,
+            },
             //配置跨域
             '/api': {
-                target: 'http://192.168.4.65:3000/', //"http://192.168.4.152:8181/",
+                target: 'http://127.0.0.1:3000/', //"http://192.168.4.152:8181/",
                 // ws:true,
                 changeOrigin: process.env.NODE_ENV === 'development',
                 pathRewrite: {
