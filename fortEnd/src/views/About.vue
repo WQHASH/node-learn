@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-10-15 14:15:17
+ * @LastEditTime: 2020-10-16 19:18:58
 -->
 <template>
   <div class="about">
@@ -12,22 +12,28 @@
 </template>
 
 <script>
-import socket from "@/socket";
 
 export default {
   data() {
-    return {};
+    return {
+      obj: {
+        sname: "wq",
+        sage: 12,
+      },
+    };
   },
   created() {
-    socket.on("messageServer", (data) => {
-      console.log(data, "messageServer");
-    });
+    // this.socket.on("messageServer", (data) => {
+    //   console.log(data, "messageServer");
+    // });
   },
 
   methods: {
     handleClick() {
-      console.log(socket, "xxx");
-      socket.emit("messageClient", { sname: "wq" });
+      // console.log(this.socket, "xxx");
+      // console.log(this.obj, "obj");
+
+      // this.socket.emit("messageClient", { sname: "wq" });
     },
   },
 };

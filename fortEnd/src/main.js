@@ -5,23 +5,36 @@ import router from './router'
 import store from './store'
 import 'element-ui/lib/theme-chalk/index.css';
 import Element from 'element-ui';
-import socket from './socket';
+import WebSocket from 'ws';
+// import socket from './socket';
 
-// const socket = io('ws://localhost:3000/');
+// Vue.prototype.socket = socket;
+// socket.on('connect', function () {
+//   console.log('%c connect success.', 'color: #690');
+// });
 
-socket.on('connect', function () {
-  console.log('%c connect success.', 'color: #690');
+// socket.on('disconnect', () => {
+//   console.log(socket.connected); // false
+// })
+
+// socket.on('data', (data) => {
+//   console.log(data);
+// });
+
+
+
+let ws = new WebSocket('ws://localhost:3000/test');
+
+// 打开WebSocket连接后立刻发送一条消息:
+ws.on('open', function () {
+    console.log(`[CLIENT] open()`);
+    ws.send('Hello!');
 });
 
-socket.on('disconnect', () => {
-  console.log(socket.connected); // false
-})
-
-socket.on('data', (data) => {
-  console.log(data);
+// 响应收到的消息:
+ws.on('message', function (message) {
+    console.log(`[CLIENT] Received: ${message}`);
 });
-
-
 
 
 Vue.use(Element, {

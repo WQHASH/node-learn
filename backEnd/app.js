@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-10-15 15:47:51
+ * @LastEditTime: 2020-10-16 19:22:07
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -28,6 +28,32 @@ var app = express();
 //   if(err){ return console.log("查询失败！")};
 //   console.log(data,"查询成功");
 // })
+
+
+
+// 导入WebSocket模块:
+const WebSocket = require('ws');
+
+// 引用Server类:
+const WebSocketServer = WebSocket.Server;
+
+// 实例化:
+const wss = new WebSocketServer({
+  port: 3001
+});
+
+wss.on('connection', function (ws) {
+  console.log(`[SERVER] connection()`);
+  ws.on('message', function (message) {
+      console.log(`[SERVER] Received: ${message}`);
+      
+      ws.send(`ECHO: ${message}`, (err) => {
+          if (err) {
+              console.log(`[SERVER] error: ${err}`);
+          }
+      });
+  })
+});
 
 
 

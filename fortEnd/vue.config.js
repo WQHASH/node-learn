@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-05-29 17:29:56
- * @LastEditTime: 2020-10-15 15:48:59
+ * @LastEditTime: 2020-10-16 13:35:26
  */
 
 const path = require('path')
@@ -70,16 +70,20 @@ module.exports = {
 
     configureWebpack: config => {
         // config.name = name
-
+        console.log(IS_PROD,"IS_PROD");
         // 为生产环境修改配置...
         if (IS_PROD) {
+            console.log('为生产环');
             // externals
             // config.externals = externals
         } else {
             return {
+                // 断点调试
                 devtool: 'source-map'
             }
         }
+
+       
     },
 
     chainWebpack: config => {
@@ -136,7 +140,7 @@ module.exports = {
         /**
          * 断点调试
          */
-        config.when(!IS_PROD, config => config.devtool('cheap-source-map'))
+        // config.when(!IS_PROD, config => config.devtool('cheap-source-map'))
         config.when(IS_PROD, config => {
             config
                 .plugin('ScriptExtHtmlWebpackPlugin')

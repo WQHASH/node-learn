@@ -21,15 +21,15 @@ app.set('port', port);
 var server = http.createServer(app);
 
 // 连接socket
-const options = { origins: '*:*' };
-var io = require('socket.io')(server, options);
-io.on('connection', (socket) => { 
-  socket.on('messageClient', (data) => {
-    console.log(data, "data");
-    socket.emit("messageServer", {"sname": "汪琪"});
-  });
+// const options = { origins: '*:*' };
+// var io = require('socket.io')(server, options);
+// io.on('connection', (socket) => { 
+//   socket.on('messageClient', (data) => {
+//     console.log(data, "data");
+//     socket.emit("messageServer", {"sname": "汪琪"});
+//   });
   
-});
+// });
 
 /**
  * Listen on provided port, on all network interfaces.
