@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-09-22 23:58:16
+ * @LastEditTime: 2020-10-18 10:55:27
 -->
 <template>
 <div class="home">
@@ -92,7 +92,7 @@ export default {
             let imgs = data.data.imgs;
             console.log(imgs[0])
             // this.valueUrl = `http://192.168.4.65:3000${imgs[6]}`;
-            this.valueUrl = `/api${imgs[0]['url']}`;
+            this.valueUrl = `/api${imgs[1]['url']}`;
         }).catch((err) => {
             console.log('请求图片失败!');
         });

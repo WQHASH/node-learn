@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-10-16 19:22:07
+ * @LastEditTime: 2020-10-18 19:34:55
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -31,29 +31,20 @@ var app = express();
 
 
 
-// 导入WebSocket模块:
-const WebSocket = require('ws');
-
-// 引用Server类:
-const WebSocketServer = WebSocket.Server;
-
-// 实例化:
-const wss = new WebSocketServer({
-  port: 3001
-});
-
-wss.on('connection', function (ws) {
-  console.log(`[SERVER] connection()`);
-  ws.on('message', function (message) {
-      console.log(`[SERVER] Received: ${message}`);
-      
-      ws.send(`ECHO: ${message}`, (err) => {
-          if (err) {
-              console.log(`[SERVER] error: ${err}`);
-          }
-      });
+var ws = require("nodejs-websocket");
+let index = 1;
+var server = ws.createServer(function (conn) {
+  conn.on("text", function (str) {
+    console.log("收到的信息为:" + str)
+    conn.sendText(`我我我哦来自服务端啊${index++}~~`)
   })
-});
+  conn.on("close", function (code, reason) {
+    console.log("关闭连接")
+  });
+  conn.on("error", function (code, reason) {
+    console.log("异常关闭")
+  });
+}).listen(3001)
 
 
 

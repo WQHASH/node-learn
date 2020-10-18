@@ -1,3 +1,9 @@
+/*
+ * @Description: 
+ * @Author: wangqi
+ * @Date: 2020-10-18 10:47:24
+ * @LastEditTime: 2020-10-18 12:37:22
+ */
 import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
@@ -5,9 +11,12 @@ import router from './router'
 import store from './store'
 import 'element-ui/lib/theme-chalk/index.css';
 import Element from 'element-ui';
-import WebSocket from 'ws';
 // import socket from './socket';
+// import WebSocket from 'ws';
 
+
+
+// socketIo
 // Vue.prototype.socket = socket;
 // socket.on('connect', function () {
 //   console.log('%c connect success.', 'color: #690');
@@ -22,19 +31,26 @@ import WebSocket from 'ws';
 // });
 
 
+// 原生
+// let ws = new WebSocket('ws://localhost:3001');
+// ws.onopen = function () {
+//   // Web Socket 已连接上，使用 send() 方法发送数据
+//   ws.send("发送数据");
+//   console.log("数据发送中...");
+// };
 
-let ws = new WebSocket('ws://localhost:3000/test');
+// ws.onmessage = function (evt) {
+//   var received_msg = evt.data;
+//   console.log("数据已接收...", `${received_msg}`);
+// };
+// ws.onclose = function () {
+//   // 关闭 websocket
+//   console.log("连接已关闭...");
+// };
 
-// 打开WebSocket连接后立刻发送一条消息:
-ws.on('open', function () {
-    console.log(`[CLIENT] open()`);
-    ws.send('Hello!');
-});
 
-// 响应收到的消息:
-ws.on('message', function (message) {
-    console.log(`[CLIENT] Received: ${message}`);
-});
+
+
 
 
 Vue.use(Element, {

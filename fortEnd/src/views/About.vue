@@ -2,17 +2,19 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-10-16 19:18:58
+ * @LastEditTime: 2020-10-18 19:34:30
 -->
 <template>
   <div class="about">
     <h1>This is an about page11</h1>
     <button @click="handleClick">send</button>
+    <p>{{ socketStr }}</p>
   </div>
 </template>
 
 <script>
-
+import { createSocket, sendWSPush, onmessageWS } from "@/util/websocket";
+// let ws;
 export default {
   data() {
     return {
@@ -20,20 +22,40 @@ export default {
         sname: "wq",
         sage: 12,
       },
+      socketStr: "121",
     };
   },
   created() {
     // this.socket.on("messageServer", (data) => {
     //   console.log(data, "messageServer");
     // });
+
+    createSocket("ws://localhost:3001");
+    window.addEventListener("onmessageWS", (e) => {
+      console.log(e);
+      this.socketStr = e.detail.data;
+    });
+
+    // ws = new WebSocket("ws://localhost:3001");
+    // ws.onopen = function () {
+    //   // Web Socket 已连接上，使用 send() 方法发送数据
+    //   ws.send("发送数据");
+    //   console.log("数据发送中...");
+    // };
+
+    // ws.onmessage = function (evt) {
+    //   var received_msg = evt.data;
+    //   console.log("数据已接收...", `${received_msg}`);
+    // };
   },
 
   methods: {
     handleClick() {
       // console.log(this.socket, "xxx");
       // console.log(this.obj, "obj");
-
       // this.socket.emit("messageClient", { sname: "wq" });
+      sendWSPush({ sname: "xxxx" });
+      //  ws.send(JSON.stringify({"sname":"wq"}));
     },
   },
 };

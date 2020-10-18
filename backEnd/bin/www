@@ -28,7 +28,6 @@ var server = http.createServer(app);
 //     console.log(data, "data");
 //     socket.emit("messageServer", {"sname": "汪琪"});
 //   });
-  
 // });
 
 /**
