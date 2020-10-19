@@ -1,3 +1,9 @@
+<!--
+ * @Description: 
+ * @Author: wangqi
+ * @Date: 2020-10-15 13:03:26
+ * @LastEditTime: 2020-10-19 14:16:22
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,18 +31,18 @@
 
     // ================
     // WebSocket
-    var ws = new WebSocket("ws://localhost:3000");
-    console.log(ws, "ws");
-    ws.onopen = function () {
-      // Web Socket 已连接上，使用 send() 方法发送数据
-      ws.send("发送数据");
-      console.log("数据发送中...");
-    };
+    // var ws = new WebSocket("ws://localhost:3000");
+    // console.log(ws, "ws");
+    // ws.onopen = function () {
+    //   // Web Socket 已连接上，使用 send() 方法发送数据
+    //   ws.send("发送数据");
+    //   console.log("数据发送中...");
+    // };
 
-    ws.onmessage = function (evt) {
-      var received_msg = evt.data;
-      console.log("数据已接收...");
-    };
+    // ws.onmessage = function (evt) {
+    //   var received_msg = evt.data;
+    //   console.log("数据已接收...");
+    // };
 
 
     const uploadBtn = document.querySelector("#upload");
@@ -61,6 +67,30 @@
 
     });
 
+
+    {
+      let clientTime, serverTime;
+      console.log(1);
+
+      clientTime = setTimeout(() => {
+        console.log('clientTime');
+        fun();
+        serverTime = setTimeout(() => {
+          console.log('serverTime');
+        }, 5000);
+
+
+      }, 5000);
+
+
+      function fun() {
+        setTimeout(() => {
+          clearTimeout(clientTime);
+          clearTimeout(serverTime);
+        }, 2000)
+      }
+
+    }
 
   </script>
 </body>

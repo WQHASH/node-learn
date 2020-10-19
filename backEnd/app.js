@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-10-18 19:34:55
+ * @LastEditTime: 2020-10-19 17:32:02
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -32,19 +32,35 @@ var app = express();
 
 
 var ws = require("nodejs-websocket");
-let index = 1;
 var server = ws.createServer(function (conn) {
   conn.on("text", function (str) {
-    console.log("收到的信息为:" + str)
-    conn.sendText(`我我我哦来自服务端啊${index++}~~`)
-  })
-  conn.on("close", function (code, reason) {
-    console.log("关闭连接")
+    console.log("收到的信息为--:" + str);
+    // conn.sendText(`我我我哦来自服务端啊${index++}~~`);
+
+    console.log(str, "|index");
+    broadcast(str);
   });
+
+  conn.on("close", function (code, reason) {
+    console.log("关闭连接");
+  });
+
   conn.on("error", function (code, reason) {
     console.log("异常关闭")
   });
-}).listen(3001)
+}).listen(3001);
+
+/**
+ * @description: 消息广播
+ * @param {type} 
+ * @return {type} 
+ */
+function broadcast(data) {
+  //所有的窗口都储存在connections里面，所以用循环把消息发给所有的窗口 
+  server.connections.forEach((conn) => {
+    conn.sendText(data)  //sendText 服务端发送给客户端方法
+  })
+}
 
 
 
