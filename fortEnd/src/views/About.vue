@@ -2,12 +2,13 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:01:31
- * @LastEditTime: 2020-10-19 17:28:28
+ * @LastEditTime: 2020-10-21 13:33:29
 -->
 <template>
   <div class="about">
     <h1>This is an about page11</h1>
     <button @click="handleClick">send</button>
+    <button @click="close">关闭</button>
     <p>{{ socketStr }}</p>
   </div>
 </template>
@@ -40,8 +41,7 @@ export default {
     // });
 
     this.socket = new mySocket("ws://localhost:3001");
-    console.log(this.socket, "socket");
-
+    this.socket.on = 'onmessage';
     window.addEventListener("onmessage", (e) => {
       if (e.detail.data !== "ping") {
         this.socketStr = e.detail.data;
@@ -69,8 +69,11 @@ export default {
       // sendWSPush({ sname: "xxxx" });
       //  ws.send(JSON.stringify({"sname":"wq"}));
       let num = this.obj.num++;
-      this.socket.send(num);
+      this.socket.emit(num);
     },
+    close(){
+      this.socket.close();
+    }
   },
 };
 </script>

@@ -2,12 +2,14 @@
  * @Description: websocket 封装
  * @Author: wangqi
  * @Date: 2020-10-19 09:53:25
- * @LastEditTime: 2020-10-19 17:18:21
+ * @LastEditTime: 2020-10-21 13:37:46
  */
 
 class mySocket {
     constructor(url) {
         this._url = url;
+        // 注册监听事件名称
+        this.on = null;
         // 是否真正建立连接
         this._lockReconnect = false;
         // 心跳间隔
@@ -29,6 +31,9 @@ class mySocket {
         this.websock.onmessage = this.onmessage.bind(this);
         //连接关闭
         this.websock.onclose = this.onclose.bind(this);
+
+
+
     }
 
     /**
@@ -39,14 +44,13 @@ class mySocket {
     onopen() {
         console.log("websocket连接成功");
         // 开启心跳连接
-        console.log(this, "this");
         this.start();
     }
     /**
      * @description:    发送消息
      * @param {String}  消息内容
      */
-    send(msg) {
+    emit(msg) {
         this.websock.send(msg);
     }
 
@@ -57,9 +61,9 @@ class mySocket {
      */
     onmessage(e) {
         //处理收到消息逻辑
-        let event = new CustomEvent('onmessage', { detail: { data: e.data } });
+        // let event = new CustomEvent('onmessage', { detail: { data: e.data } });
+        let event = new CustomEvent(`${this.on}`, { detail: { data: e.data } });
         window.dispatchEvent(event);
-        console.log(e.data, "--收到消息");
         //收到服务器信息，心跳重置
         this.reset();
     }
@@ -73,6 +77,9 @@ class mySocket {
         console.log('websocket已关闭');
         // 重连
         this.reconnect();
+    }
+    close(){
+        this.websock.close();
     }
 
     /**
@@ -114,7 +121,7 @@ class mySocket {
             // 定时心跳发送 'ping'
             if (this.websock.readyState == 1) {
                 // 服务端返回 'pong', 接收到消息后      
-                this.send('ping');
+                this.emit('ping');
             } else {
                 // 否则重连
                 console.log('重连~~');
