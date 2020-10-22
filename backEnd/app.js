@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-10-22 14:06:52
+ * @LastEditTime: 2020-10-22 17:44:22
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -90,6 +90,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+// console.log(express.text());
 
 // //解决跨域
 // app.all("*", function (req, res, next) {
