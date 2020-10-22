@@ -2,9 +2,9 @@
  * @Description: websocket 封装
  * @Author: wangqi
  * @Date: 2020-10-19 09:53:25
- * @LastEditTime: 2020-10-21 13:37:46
+ * @LastEditTime: 2020-10-22 13:23:11
  */
-
+let websock;
 class mySocket {
     constructor(url) {
         this._url = url;
@@ -25,14 +25,13 @@ class mySocket {
         this.websock = new WebSocket(url);
         //连接成功
         this.websock.onopen = this.onopen.bind(this);
-        //连接错误
-        this.websock.onerror = this.onerror.bind(this);
         //接收信息
         this.websock.onmessage = this.onmessage.bind(this);
+        //连接错误
+        this.websock.onerror = this.onerror.bind(this);
         //连接关闭
         this.websock.onclose = this.onclose.bind(this);
-
-
+        websock = this.websock;
 
     }
 
@@ -78,7 +77,7 @@ class mySocket {
         // 重连
         this.reconnect();
     }
-    close(){
+    close() {
         this.websock.close();
     }
 
@@ -133,7 +132,7 @@ class mySocket {
                 if (this.websock.readyState !== 1) {
                     console.log('服务器超时关闭');
                     // 服务器超时关闭
-                    this.onclose();
+                    this.close();
                 }
             }, this._timeout);
 

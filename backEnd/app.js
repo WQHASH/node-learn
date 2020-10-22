@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wangqi
  * @Date: 2020-08-28 10:03:55
- * @LastEditTime: 2020-10-19 17:32:02
+ * @LastEditTime: 2020-10-22 14:06:52
  */
 var createError = require('http-errors');
 var express = require('express');
@@ -32,12 +32,13 @@ var app = express();
 
 
 var ws = require("nodejs-websocket");
+let index = 1;
 var server = ws.createServer(function (conn) {
   conn.on("text", function (str) {
     console.log("收到的信息为--:" + str);
     // conn.sendText(`我我我哦来自服务端啊${index++}~~`);
 
-    console.log(str, "|index");
+    console.log(str, `|index${index++}`);
     broadcast(str);
   });
 
